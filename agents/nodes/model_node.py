@@ -1,5 +1,5 @@
 from langchain.messages import SystemMessage
-from agents.init_chat_model import model_with_tools
+from agents.model import model_with_tools
 
 
 def llm_call(state: dict):
