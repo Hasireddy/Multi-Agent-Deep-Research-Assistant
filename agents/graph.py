@@ -1,13 +1,11 @@
 from langgraph.graph import StateGraph, START, END
-from IPython.display import Image, display
-
 from agents.state import MessagesState
-from  agents.nodes.model_node import llm_call
+from  agents.nodes.llm_node import llm_call
 from  agents.nodes.tool_node import tool_node
 from  agents.nodes.conditional_edge import should_continue
 
 
-# Build workflow
+# Builds the Graph(workflow)
 agent_builder = StateGraph(MessagesState)
 
 # Add nodes
@@ -26,13 +24,7 @@ agent_builder.add_edge("tool_node", "llm_call")
 #Compile the agent
 agent = agent_builder.compile()
 
-"""# Show the agent
-display(Image(agent.get_graph(xray=True).draw_mermaid_png()))
 
-# Invoke
-from langchain.messages import HumanMessage
-messages = [HumanMessage(content="Add 3 and 4.")]
-messages = agent.invoke({"messages": messages})
-for m in messages["messages"]:
-    m.pretty_print()"""
+
+
 

@@ -1,9 +1,12 @@
 from langchain.messages import SystemMessage
 from agents.model import model_with_tools
+from agents.state import MessagesState
 
 
-def llm_call(state: dict):
-    """LLM decides whether to call a tool or not"""
+# Brain of LangGraph agent that decides what to do next
+def llm_call(state: MessagesState):
+    """This node receives the current state and decides
+    whether to call a tool or answer the user"""
     return{
         "messages": [
             model_with_tools.invoke(
@@ -15,5 +18,5 @@ def llm_call(state: dict):
                 + state["messages"]
             )
         ],
-        "llm_calls": state.get('llm_calls',0) + 1
+        "llm_calls": state.get('llm_calls',0) + 1,
     }
