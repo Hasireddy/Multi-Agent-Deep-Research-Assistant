@@ -9,7 +9,7 @@ def should_continue(state: MessagesState)-> str:
     messages = state["messages"]
     last_message = messages[-1]
 
-    # If LLM makes a tool calal, then perform action
+    # If LLM makes a tool call, then perform action
     if last_message.tool_calls:
         return "tool_node"
 
