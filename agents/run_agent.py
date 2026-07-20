@@ -1,5 +1,14 @@
-from agents.graph import agent
-from langchain.messages import HumanMessage
+import sys
+from pathlib import Path
+
+ROOT_PROJECT = Path(__file__).resolve().parents[1]
+if str(ROOT_PROJECT) not in sys.path:
+    sys.path.insert(0, str(ROOT_PROJECT))
+
+
+from agents.graph import build_research_graph
+from agents.state import ResearchStage
+
 
 # Visualize graph
 #print(agent.get_graph().draw_ascii())
@@ -12,23 +21,22 @@ from langchain.messages import HumanMessage
 #print("Graph saved as agent_graph.png")
 
 
-#Starting point to run the Graph
-# langGraph passes the messages and llm_calls from node to node
-def run_agent():
-    response = agent.invoke(
+def run_agent(query: str):
+    graph = build_research_graph()
+    return graph.invoke(
         {
-            "messages": [
-                HumanMessage(
-                    content="Explain differences between lithium and iron batteries."
-                )
-            ],
-            "llm_calls": 0
+            "query": query,
+            "stage": ResearchStage.PLANNING
         }
     )
 
-    return response
-
 
 if __name__ == "__main__":
-    run_agent()
+    result = run_agent("Explain differences between lithium and iron batteries?")
+    print(f"Stage: {result.get('stage')}")
+    for sq in result.get("sub_questions", []):
+        print(f"    [{sq.id}]: {sq.question} - {sq.rationale}")
+
+    for error in result.get("errors", []):
+        print(f"    ERROR: {error}")
 
