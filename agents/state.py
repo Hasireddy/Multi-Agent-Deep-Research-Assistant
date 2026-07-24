@@ -2,6 +2,7 @@ from enum import Enum
 from typing import TypedDict
 
 from schemas.planner_schema import SubQuestion
+from schemas.searcher_schema import SearchResultSchema
 
 
 class ResearchStage(str, Enum):
@@ -14,6 +15,7 @@ class ResearchStage(str, Enum):
     WRITING = "writing"
     CITING = "citing"
     PRESENTING = "presenting"
+    COMPLETED = "completed"
     FAILED = "failed"
 
 
@@ -32,6 +34,10 @@ class ResearchState(TypedDict, total=False):
 
     # Per node output
     sub_questions: list[SubQuestion]
+    search_results: list[SearchResultSchema]
+    report_generation: str
+    create_presentation: str
+
 
 
 

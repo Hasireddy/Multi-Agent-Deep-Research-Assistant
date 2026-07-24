@@ -1,4 +1,3 @@
-from langchain.tools import tool
 from typing import Callable
 
 from agents.state import ResearchState, ResearchStage

@@ -32,11 +32,38 @@ def run_agent(query: str):
 
 
 if __name__ == "__main__":
-    result = run_agent("Explain differences between lithium and iron batteries?")
+    query = input("Enter your research query: ")
+    result = run_agent(query)
     print(f"Stage: {result.get('stage')}")
     for sq in result.get("sub_questions", []):
         print(f"    [{sq.id}]: {sq.question} - {sq.rationale}")
 
+    for sr in result.get("search_results", []):
+        print(f"\nSubQuestion ID: {sr.subquestion_id}")
+        print(f"Title: {sr.title}")
+        print(f"URL: {sr.url}")
+        print(f"Content: {sr.content}")
+        print("-" * 80)
+
+    print("\n" + "=" * 80)
+    print("FINAL REPORT")
+    print("=" * 80)
+
+    print("**************************")
+    print("\nAvailable keys:")
+    print(result.keys())
+    print("**************************")
+
+    if result.get("report_generation"):
+        print(result["report_generation"])
+
+    print("CREATED PRESENTATION")
+    if result.get("create_presentation"):
+        print(result["create_presentation"])
+
+
     for error in result.get("errors", []):
-        print(f"    ERROR: {error}")
+        print(f"ERROR: {error}")
+
+
 
